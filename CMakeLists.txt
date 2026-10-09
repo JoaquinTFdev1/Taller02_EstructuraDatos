@@ -11,6 +11,10 @@ add_executable(taller02
         src/Paciente.cpp
         include/Persona.h
         src/Persona.cpp
+        include/Utilidades.h
+        src/Utilidades.cpp
+        include/ArchivoPacientes.h
+        src/ArchivoPacientes.cpp
 )
 
 target_include_directories(taller02 PRIVATE include)
