@@ -5,50 +5,30 @@
 // Paralelo: C1
 
 #include <iostream>
-#include <string>
-
-#include "ArchivoPacientes.h"
+#include "ColaPacientes.h"
 
 using namespace std;
 
 int main() {
+    ColaPacientes cola;
 
-     string linea =
-         "001;Juan Perez;25;37.0;120;3;otro;0;0;0;0";
+    cola.push(new Paciente("001", "Juan Perez", 25, 37.0, 120,3, "otro", 0, 0, 0, 0));
 
-     string error = "";
+    cola.push(new Paciente("002", "Ana Torres", 12, 36.8, 110,2, "cabeza", 0, 0, 0, 0));
 
+    cola.push(new Paciente("003", "Luis Diaz", 31, 36.9, 125,5, "extremidad", 1, 0, 0, 0));
 
-     Paciente* paciente = crearPacienteDesdeLinea(linea,error);
+    cola.mostrar();
 
+    cout << "\nOrden de salida:" << endl;
 
-     if (paciente == nullptr) {
-          cout << "Error: " << error<< endl;
-          return 0;
-     }
+    while (!cola.isEmpty()) {
+        Paciente* paciente = cola.pop();
 
-     cout << "Paciente interpretado correctamente"<< endl;
+        cout << paciente->getId() << " - " << paciente->getNombre() << endl;
 
-     cout << "ID: " << paciente->getId() << endl;
+        delete paciente;
+    }
 
-     cout << "Nombre: "<< paciente->getNombre()<< endl;
-
-     cout << "Edad: "<< paciente->getEdad() << endl;
-
-     cout << "Temperatura: " << paciente->getTemperatura()<< endl;
-
-     cout << "Presion arterial: "<< paciente->getPresionArterial() << endl;
-
-     cout << "Dolor: " << paciente->getDolor()<< endl;
-     cout << "Tipo dolor: " << paciente->getTipoDolor()<< endl;
-     cout << "Trauma: " << paciente->getTrauma() << endl;
-     cout << "Sintomas neurologicos: " << paciente->getSintomasNeurologicos() << endl;
-     cout << "Requiere cirugia: "<< paciente->getRequiereCirugia()<< endl;
-     cout << "Dias hospitalizacion: " << paciente->getDiasHospitalizacion() << endl;
-
-
-     delete paciente;
-
-
-     return 0;
+    return 0;
 }

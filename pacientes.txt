@@ -1,0 +1,12 @@
+001;Juan Perez;25;37.0;120;3;otro;0;0;0;0
+002;Ana Torres;12;36.8;110;2;cabeza;0;0;0;0
+003;Luis Diaz;31;36.9;125;5;extremidad;1;0;0;0
+004;Maria Soto;44;37.1;130;6;abdomen;1;0;1;1
+005;Pedro Rojas;52;36.7;135;4;cabeza;0;1;0;0
+006;Sofia Vega;47;37.0;145;5;pecho;0;0;0;0
+007;Carlos Mena;28;39.0;125;4;otro;0;0;0;0
+008;Elena Silva;70;36.5;130;2;otro;0;0;0;4
+009;Diego Araya;34;36.8;118;2;otro;0;0;0;0
+010;Camila Leon;29;37.1;122;3;otro;0;0;0;0
+011;Jorge Pinto;55;37.0;170;5;otro;0;0;0;0
+012;Valentina Cruz;39;36.9;128;8;otro;0;0;0;0
