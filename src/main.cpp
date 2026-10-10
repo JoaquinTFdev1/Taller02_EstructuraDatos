@@ -5,110 +5,19 @@
 // Paralelo: C1
 
 #include <iostream>
-
-#include "ArchivoPacientes.h"
-#include "ColaPacientes.h"
-#include "ArbolDecision.h"
+#include "AVL.h"
 
 using namespace std;
 
-
 int main() {
+    AVL arbol;
+    arbol.insertar(new Paciente("020", "Paciente B", 30, 37.0, 120,2, "otro", 0, 0, 0, 0));
+    arbol.insertar(new Paciente("010", "Paciente A", 25, 36.8, 115,1, "otro", 0, 0, 0, 0));
+    arbol.insertar(new Paciente("030", "Paciente C", 35, 37.2, 125,3, "otro", 0, 0, 0, 0));
 
-    ColaPacientes cola;
-
-    ArbolDecision arbol;
-
-
-    int incorporados = 0;
-
-    int rechazados = 0;
-
-
-    bool cargado =
-        cargarPacientesEnCola(
-            "pacientes.txt",
-            cola,
-            incorporados,
-            rechazados
-        );
-
-
-    if (!cargado) {
-
-        return 0;
-    }
-
-
-    cout
-        << "Pacientes incorporados: "
-        << incorporados
-        << endl;
-
-
-    cout
-        << "Registros rechazados: "
-        << rechazados
-        << endl;
-
-
-    cout
-        << "\n=== CLASIFICACION DE PACIENTES ==="
-        << endl;
-
-
-    while (!cola.isEmpty()) {
-
-        Paciente* paciente =
-            cola.pop();
-
-
-        string ruta = "";
-
-
-        string servicio =
-            arbol.evaluarPaciente(
-                paciente,
-                ruta
-            );
-
-
-        cout
-            << "\nID: "
-            << paciente->getId()
-            << endl;
-
-
-        cout
-            << "Nombre: "
-            << paciente->getNombre()
-            << endl;
-
-
-        cout
-            << "Ruta: "
-            << ruta
-            << endl;
-
-
-        cout
-            << "Servicio: "
-            << servicio
-            << endl;
-
-
-        delete paciente;
-    }
-
-
-    arbol.mostrarPreorden();
-
-
-    arbol.mostrarInorden();
-
-
-    arbol.mostrarPostorden();
-
+    cout << "Raiz: " << arbol.getRaiz()->getPaciente()->getId() << endl;
+    cout << "Izquierda: "<< arbol.getRaiz()->getIzquierda()->getPaciente()->getId() << endl;
+    cout << "Derecha: " << arbol.getRaiz()->getDerecha()->getPaciente()->getId() << endl;
 
     return 0;
 }

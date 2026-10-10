@@ -14,6 +14,10 @@ add_executable(taller02
         src/ArchivoPacientes.cpp
         src/NodoDecision.cpp
         src/ArbolDecision.cpp
+        include/NodoAVL.h
+        src/NodoAVL.cpp
+        include/AVL.h
+        src/AVL.cpp
 )
 
 target_include_directories(taller02 PRIVATE include)
