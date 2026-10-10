@@ -17,6 +17,10 @@ add_executable(taller02
         src/ArchivoPacientes.cpp
         include/ColaPacientes.h
         src/ColaPacientes.cpp
+        include/NodoDecision.h
+        src/NodoDecision.cpp
+        include/ArbolDecision.h
+        src/ArbolDecision.cpp
 )
 
 target_include_directories(taller02 PRIVATE include)
