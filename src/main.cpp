@@ -7,12 +7,18 @@
 #include <iostream>
 
 #include "ArbolDecision.h"
+
 using namespace std;
+
 
 int main() {
 
     ArbolDecision arbol;
-    cout << "Raiz del arbol: "<< arbol.getRaiz()->getTexto() << endl;
+    NodoDecision* raiz = arbol.getRaiz();
+
+    cout << "Decision inicial: " << raiz->getTexto() << endl;
+    cout << "Ruta SI: " << raiz->getRamaSi()->getServicio() << endl;
+    cout << "Ruta NO: " << raiz->getRamaNo()->getTexto() << endl;
 
     return 0;
 }
