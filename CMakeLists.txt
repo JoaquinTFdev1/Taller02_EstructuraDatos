@@ -9,18 +9,17 @@ add_executable(taller02
         src/main.cpp
         src/Persona.cpp
         src/Paciente.cpp
-        include/Persona.h
-        src/Persona.cpp
-        include/Utilidades.h
         src/Utilidades.cpp
-        include/ArchivoPacientes.h
-        src/ArchivoPacientes.cpp
-        include/ColaPacientes.h
         src/ColaPacientes.cpp
-        include/NodoDecision.h
+        src/ArchivoPacientes.cpp
         src/NodoDecision.cpp
-        include/ArbolDecision.h
         src/ArbolDecision.cpp
 )
 
 target_include_directories(taller02 PRIVATE include)
+
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/pacientes.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/pacientes.txt
+        COPYONLY
+)

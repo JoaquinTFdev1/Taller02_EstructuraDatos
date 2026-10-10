@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include "ArchivoPacientes.h"
+#include "ColaPacientes.h"
 #include "ArbolDecision.h"
 
 using namespace std;
@@ -13,12 +15,100 @@ using namespace std;
 
 int main() {
 
-    ArbolDecision arbol;
-    NodoDecision* raiz = arbol.getRaiz();
+    ColaPacientes cola;
 
-    cout << "Decision inicial: " << raiz->getTexto() << endl;
-    cout << "Ruta SI: " << raiz->getRamaSi()->getServicio() << endl;
-    cout << "Ruta NO: " << raiz->getRamaNo()->getTexto() << endl;
+    ArbolDecision arbol;
+
+
+    int incorporados = 0;
+
+    int rechazados = 0;
+
+
+    bool cargado =
+        cargarPacientesEnCola(
+            "pacientes.txt",
+            cola,
+            incorporados,
+            rechazados
+        );
+
+
+    if (!cargado) {
+
+        return 0;
+    }
+
+
+    cout
+        << "Pacientes incorporados: "
+        << incorporados
+        << endl;
+
+
+    cout
+        << "Registros rechazados: "
+        << rechazados
+        << endl;
+
+
+    cout
+        << "\n=== CLASIFICACION DE PACIENTES ==="
+        << endl;
+
+
+    while (!cola.isEmpty()) {
+
+        Paciente* paciente =
+            cola.pop();
+
+
+        string ruta = "";
+
+
+        string servicio =
+            arbol.evaluarPaciente(
+                paciente,
+                ruta
+            );
+
+
+        cout
+            << "\nID: "
+            << paciente->getId()
+            << endl;
+
+
+        cout
+            << "Nombre: "
+            << paciente->getNombre()
+            << endl;
+
+
+        cout
+            << "Ruta: "
+            << ruta
+            << endl;
+
+
+        cout
+            << "Servicio: "
+            << servicio
+            << endl;
+
+
+        delete paciente;
+    }
+
+
+    arbol.mostrarPreorden();
+
+
+    arbol.mostrarInorden();
+
+
+    arbol.mostrarPostorden();
+
 
     return 0;
 }

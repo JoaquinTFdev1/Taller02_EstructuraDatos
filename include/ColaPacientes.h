@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Paciente.h"
+
 #include <string>
 
 using namespace std;
@@ -16,21 +17,17 @@ private:
         NodoCola* next;
 
         NodoCola(Paciente* paciente) {
-
             this->paciente = paciente;
             this->next = nullptr;
         }
     };
-
 
     NodoCola* frente;
     NodoCola* final;
 
     int cantidad;
 
-
 public:
-
     ColaPacientes();
 
     ~ColaPacientes();

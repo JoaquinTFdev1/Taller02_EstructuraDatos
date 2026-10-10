@@ -2,7 +2,6 @@
 #include <climits>
 
 string recortar(string texto) {
-
     if (texto.empty()) {
         return "";
     }
@@ -25,22 +24,17 @@ string recortar(string texto) {
     string resultado = "";
 
     for (int i = inicio; i <= fin; i++) {
-
         resultado += texto[i];
     }
 
     return resultado;
 }
 
-
 string aMinusculasSimple(string texto) {
-
     int largo = texto.length();
 
     for (int i = 0; i < largo; i++) {
-
         if (texto[i] >= 'A' && texto[i] <= 'Z') {
-
             texto[i] = texto[i] + 32;
         }
     }
@@ -48,8 +42,7 @@ string aMinusculasSimple(string texto) {
     return texto;
 }
 
-bool convertirAEnteroNoNegativo(string texto,int& valor) {
-
+bool convertirAEnteroNoNegativo(string texto, int& valor) {
     texto = recortar(texto);
 
     if (texto.empty()) {
@@ -60,18 +53,15 @@ bool convertirAEnteroNoNegativo(string texto,int& valor) {
     int largo = texto.length();
 
     for (int i = 0; i < largo; i++) {
-
         char caracter = texto[i];
 
         if (caracter < '0' || caracter > '9') {
-
             return false;
         }
 
         int digito = caracter - '0';
 
         if (numero > (INT_MAX - digito) / 10) {
-
             return false;
         }
 
@@ -79,13 +69,10 @@ bool convertirAEnteroNoNegativo(string texto,int& valor) {
     }
 
     valor = numero;
-
     return true;
 }
 
-
-bool convertirARealNoNegativo(string texto,double& valor) {
-
+bool convertirARealNoNegativo(string texto, double& valor) {
     texto = recortar(texto);
 
     if (texto.empty()) {
@@ -99,64 +86,46 @@ bool convertirARealNoNegativo(string texto,double& valor) {
     }
 
     double numero = 0;
-
     double divisor = 10;
-
     bool puntoEncontrado = false;
 
     for (int i = 0; i < largo; i++) {
-
         char caracter = texto[i];
 
         if (caracter == '.') {
-
             if (puntoEncontrado) {
                 return false;
             }
 
-            puntoEncontrado =true;
-        }
-
-        else {
-
-            if (caracter < '0' ||caracter > '9') {
+            puntoEncontrado = true;
+        } else {
+            if (caracter < '0' || caracter > '9') {
                 return false;
             }
 
             int digito = caracter - '0';
 
             if (!puntoEncontrado) {
-
                 numero = numero * 10 + digito;
-            }
-
-            else {
-
+            } else {
                 numero = numero + digito / divisor;
-
                 divisor = divisor * 10;
             }
         }
     }
 
     valor = numero;
-
     return true;
 }
 
-
 bool tipoDolorValido(string tipoDolor) {
-
     tipoDolor = aMinusculasSimple(recortar(tipoDolor));
 
     return tipoDolor == "pecho" || tipoDolor == "cabeza" || tipoDolor == "abdomen" || tipoDolor == "extremidad" || tipoDolor == "otro";
 }
 
-
-bool textosIguales(string texto1,string texto2) {
-
+bool textosIguales(string texto1, string texto2) {
     texto1 = aMinusculasSimple(recortar(texto1));
-
     texto2 = aMinusculasSimple(recortar(texto2));
 
     return texto1 == texto2;
