@@ -7,8 +7,7 @@ NodoAVL::NodoAVL(Paciente* paciente) {
     this->altura = 1;
 }
 
-NodoAVL::~NodoAVL() {
-}
+NodoAVL::~NodoAVL() {}
 
 Paciente* NodoAVL::getPaciente() {
     return this->paciente;
@@ -41,3 +40,4 @@ void NodoAVL::setDerecha(NodoAVL* nodo) {
 void NodoAVL::setAltura(int altura) {
     this->altura = altura;
 }
+
