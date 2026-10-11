@@ -18,6 +18,8 @@ add_executable(taller02
         src/NodoAVL.cpp
         include/AVL.h
         src/AVL.cpp
+        include/Servicio.h
+        src/Servicio.cpp
 )
 
 target_include_directories(taller02 PRIVATE include)
