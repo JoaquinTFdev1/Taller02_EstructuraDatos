@@ -20,6 +20,8 @@ add_executable(taller02
         src/AVL.cpp
         include/Servicio.h
         src/Servicio.cpp
+        include/Hospital.h
+        src/Hospital.cpp
 )
 
 target_include_directories(taller02 PRIVATE include)
