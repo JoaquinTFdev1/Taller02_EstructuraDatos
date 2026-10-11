@@ -288,6 +288,109 @@ void AVL::mostrarFactores() {
     );
 }
 
+bool AVL::eliminar(string id) {
+    bool eliminado = false;
+    this->raiz = this->eliminar(this->raiz,id, eliminado);
+    return eliminado;
+}
+
+NodoAVL* AVL::nodoMenor(NodoAVL* nodo) {
+
+    NodoAVL* actual = nodo;
+
+    while (actual != nullptr && actual->getIzquierda() != nullptr) {
+        actual = actual->getIzquierda();
+    }
+
+    return actual;
+}
+
+NodoAVL* AVL::eliminar(NodoAVL* nodo, string id,bool& eliminado) {
+
+    if (nodo == nullptr) {
+        return nullptr;
+    }
+
+    string idActual = nodo->getPaciente()->getId();
+
+    if (id < idActual) {
+        nodo->setIzquierda(this->eliminar( nodo->getIzquierda(),id,eliminado));
+    }
+
+    else if (id > idActual) {
+        nodo->setDerecha(this->eliminar(nodo->getDerecha(),id,eliminado));
+    }
+
+    else {
+
+        eliminado = true;
+
+        if (nodo->getIzquierda() == nullptr && nodo->getDerecha() == nullptr) {
+
+            delete nodo->getPaciente();
+            delete nodo;
+
+            return nullptr;
+        }
+
+        if (nodo->getIzquierda() == nullptr) {
+
+            NodoAVL* hijo = nodo->getDerecha();
+
+            delete nodo->getPaciente();
+            delete nodo;
+
+            return hijo;
+        }
+
+        if (nodo->getDerecha() == nullptr) {
+
+            NodoAVL* hijo = nodo->getIzquierda();
+
+            delete nodo->getPaciente();
+            delete nodo;
+
+            return hijo;
+        }
+
+        NodoAVL* sucesor = this->nodoMenor(nodo->getDerecha());
+
+        Paciente* pacienteActual = nodo->getPaciente();
+        Paciente* pacienteSucesor = sucesor->getPaciente();
+
+        nodo->setPaciente(pacienteSucesor);
+        sucesor->setPaciente(pacienteActual);
+
+        bool eliminadoInterno = false;
+        nodo->setDerecha(this->eliminar(nodo->getDerecha(), id, eliminadoInterno));
+    }
+
+    this->actualizarAltura(nodo);
+
+    int balance = this->getFactorBalance(nodo);
+
+    if (balance > 1 && this->getFactorBalance(nodo->getIzquierda()) >= 0) {
+        return this->rotacionDerecha(nodo);
+    }
+
+    if (balance > 1 && this->getFactorBalance(nodo->getIzquierda()) < 0) {
+        nodo->setIzquierda(this->rotacionIzquierda(nodo->getIzquierda()));
+        return this->rotacionDerecha(nodo);
+    }
+
+    if (balance < -1 && this->getFactorBalance(nodo->getDerecha()) <= 0) {
+        return this->rotacionIzquierda(nodo);
+    }
+
+    if (balance < -1 && this->getFactorBalance(nodo->getDerecha()) > 0) {
+
+        nodo->setDerecha(this->rotacionDerecha(nodo->getDerecha()));
+        return this->rotacionIzquierda(nodo);
+    }
+
+    return nodo;
+}
+
 void AVL::liberar(NodoAVL* nodo) {
 
     if (nodo == nullptr) {
