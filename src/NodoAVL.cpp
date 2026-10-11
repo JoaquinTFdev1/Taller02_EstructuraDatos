@@ -1,6 +1,7 @@
 #include "NodoAVL.h"
 
 NodoAVL::NodoAVL(Paciente* paciente) {
+
     this->paciente = paciente;
     this->izquierda = nullptr;
     this->derecha = nullptr;
@@ -40,4 +41,3 @@ void NodoAVL::setDerecha(NodoAVL* nodo) {
 void NodoAVL::setAltura(int altura) {
     this->altura = altura;
 }
-

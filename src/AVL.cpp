@@ -1,5 +1,9 @@
 #include "AVL.h"
 
+#include <iostream>
+
+using namespace std;
+
 AVL::AVL() {
     this->raiz = nullptr;
 }
@@ -17,17 +21,17 @@ bool AVL::isEmpty() {
 }
 
 bool AVL::insertar(Paciente* paciente) {
+
     if (paciente == nullptr) {
         return false;
     }
 
     bool insertado = false;
     this->raiz = this->insertar(this->raiz, paciente, insertado);
-
     return insertado;
 }
 
-NodoAVL* AVL::insertar(NodoAVL* nodo, Paciente* paciente, bool& insertado) {
+NodoAVL* AVL::insertar(NodoAVL* nodo, Paciente* paciente,bool& insertado) {
 
     if (nodo == nullptr) {
         insertado = true;
@@ -38,26 +42,38 @@ NodoAVL* AVL::insertar(NodoAVL* nodo, Paciente* paciente, bool& insertado) {
     string idActual = nodo->getPaciente()->getId();
 
     if (idNuevo < idActual) {
-        nodo->setIzquierda(this->insertar(
-            nodo->getIzquierda(), paciente, insertado
-        ));
+        nodo->setIzquierda(this->insertar(nodo->getIzquierda(),paciente,insertado));
     }
 
     else if (idNuevo > idActual) {
-        nodo->setDerecha(this->insertar(nodo->getDerecha(), paciente, insertado));
+        nodo->setDerecha(this->insertar(nodo->getDerecha(),paciente,insertado));
     }
 
     else {
+
         insertado = false;
         return nodo;
     }
+
     this->actualizarAltura(nodo);
+
     int balance = this->getFactorBalance(nodo);
 
     if (balance > 1 && idNuevo < nodo->getIzquierda()->getPaciente()->getId()) {
         return this->rotacionDerecha(nodo);
     }
+
     if (balance < -1 && idNuevo > nodo->getDerecha()->getPaciente()->getId()) {
+        return this->rotacionIzquierda(nodo);
+    }
+
+    if (balance > 1 && idNuevo > nodo->getIzquierda()->getPaciente()->getId()) {
+        nodo->setIzquierda(this->rotacionIzquierda(nodo->getIzquierda()));
+        return this->rotacionDerecha(nodo);
+    }
+
+    if (balance < -1 && idNuevo < nodo->getDerecha()->getPaciente()->getId()) {
+        nodo->setDerecha(this->rotacionDerecha(nodo->getDerecha()));
         return this->rotacionIzquierda(nodo);
     }
 
@@ -65,6 +81,7 @@ NodoAVL* AVL::insertar(NodoAVL* nodo, Paciente* paciente, bool& insertado) {
 }
 
 int AVL::altura(NodoAVL* nodo) {
+
     if (nodo == nullptr) {
         return 0;
     }
@@ -73,6 +90,7 @@ int AVL::altura(NodoAVL* nodo) {
 }
 
 int AVL::maximo(int a, int b) {
+
     if (a > b) {
         return a;
     }
@@ -81,37 +99,40 @@ int AVL::maximo(int a, int b) {
 }
 
 void AVL::actualizarAltura(NodoAVL* nodo) {
+
     if (nodo == nullptr) {
         return;
     }
 
     int alturaIzquierda = this->altura(nodo->getIzquierda());
     int alturaDerecha = this->altura(nodo->getDerecha());
-
-    nodo->setAltura(1 + this->maximo(alturaIzquierda, alturaDerecha));
+    nodo->setAltura(1 + this->maximo(alturaIzquierda,alturaDerecha));
 }
 
 int AVL::getAltura() {
-    return this->altura(this->raiz);
+
+    return this->altura(
+        this->raiz
+    );
 }
 
 int AVL::getFactorBalance(NodoAVL* nodo) {
+
     if (nodo == nullptr) {
         return 0;
     }
 
-    return this->altura(nodo->getIzquierda()) -
-           this->altura(nodo->getDerecha());
+    return this->altura(nodo->getIzquierda()) - this->altura(nodo->getDerecha());
 }
 
 NodoAVL* AVL::rotacionDerecha(NodoAVL* nodo) {
+
     NodoAVL* nuevaRaiz = nodo->getIzquierda();
     NodoAVL* temporal = nuevaRaiz->getDerecha();
 
     nuevaRaiz->setDerecha(nodo);
 
     nodo->setIzquierda(temporal);
-
     this->actualizarAltura(nodo);
     this->actualizarAltura(nuevaRaiz);
 
@@ -119,6 +140,7 @@ NodoAVL* AVL::rotacionDerecha(NodoAVL* nodo) {
 }
 
 NodoAVL* AVL::rotacionIzquierda(NodoAVL* nodo) {
+
     NodoAVL* nuevaRaiz = nodo->getDerecha();
     NodoAVL* temporal = nuevaRaiz->getIzquierda();
 
@@ -129,6 +151,141 @@ NodoAVL* AVL::rotacionIzquierda(NodoAVL* nodo) {
     this->actualizarAltura(nuevaRaiz);
 
     return nuevaRaiz;
+}
+
+Paciente* AVL::buscarPorId(string id,string& ruta) {
+
+    ruta = "";
+    return this->buscarPorId(this->raiz,id,ruta);
+}
+
+Paciente* AVL::buscarPorId(NodoAVL* nodo, string id,string& ruta) {
+
+    if (nodo == nullptr) {
+        return nullptr;
+    }
+
+    if (!ruta.empty()) {
+        ruta += " -> ";
+    }
+
+    ruta += nodo->getPaciente()->getId();
+
+    string idActual = nodo->getPaciente()->getId();
+
+    if (id == idActual) {
+        return nodo->getPaciente();
+    }
+
+    if (id < idActual) {
+        return this->buscarPorId(nodo->getIzquierda(),id,ruta);
+    }
+
+    return this->buscarPorId(nodo->getDerecha(),id,ruta);
+}
+
+void AVL::mostrarInorden(NodoAVL* nodo) {
+
+    if (nodo == nullptr) {
+        return;
+    }
+
+    this->mostrarInorden(nodo->getIzquierda());
+
+    cout << nodo->getPaciente()->getId() << " - " << nodo->getPaciente()->getNombre() << endl;
+
+    this->mostrarInorden(nodo->getDerecha());
+}
+
+void AVL::mostrarInorden() {
+
+    cout << "\n=== RECORRIDO INORDEN ==="<< endl;
+
+    if (this->raiz == nullptr) {
+
+        cout << "Sin pacientes." << endl;
+        return;
+    }
+
+    this->mostrarInorden(this->raiz);
+}
+
+void AVL::mostrarPreorden(NodoAVL* nodo) {
+
+    if (nodo == nullptr) {
+        return;
+    }
+
+    cout << nodo->getPaciente()->getId() << " - " << nodo->getPaciente()->getNombre() << endl;
+
+    this->mostrarPreorden(nodo->getIzquierda());
+    this->mostrarPreorden(nodo->getDerecha());
+}
+
+void AVL::mostrarPreorden() {
+
+    cout << "\n=== RECORRIDO PREORDEN ==="<< endl;
+
+    if (this->raiz == nullptr) {
+
+        cout << "Sin pacientes." << endl;
+        return;
+    }
+
+    this->mostrarPreorden(this->raiz);
+}
+
+void AVL::mostrarPostorden(NodoAVL* nodo) {
+
+    if (nodo == nullptr) {
+        return;
+    }
+
+    this->mostrarPostorden(nodo->getIzquierda());
+    this->mostrarPostorden(nodo->getDerecha());
+
+    cout << nodo->getPaciente()->getId() << " - " << nodo->getPaciente()->getNombre() << endl;
+
+}
+
+void AVL::mostrarPostorden() {
+
+    cout << "\n=== RECORRIDO POSTORDEN ===" << endl;
+
+    if (this->raiz == nullptr) {
+
+        cout << "Sin pacientes." << endl;
+        return;
+    }
+
+    this->mostrarPostorden(this->raiz);
+}
+
+void AVL::mostrarFactores(NodoAVL* nodo) {
+
+    if (nodo == nullptr) {
+        return;
+    }
+
+    this->mostrarFactores(nodo->getIzquierda());
+
+    cout << "ID: " << nodo->getPaciente()->getId() << " | Altura: " << nodo->getAltura() << " | Balance: " << this->getFactorBalance(nodo) << endl;
+    this->mostrarFactores(nodo->getDerecha());
+
+}
+
+void AVL::mostrarFactores() {
+
+    cout << "\n=== ALTURAS Y FACTORES DE BALANCE ===" << endl;
+
+    if (this->raiz == nullptr) {
+        cout << "Arbol vacio." << endl;
+        return;
+    }
+
+    this->mostrarFactores(
+        this->raiz
+    );
 }
 
 void AVL::liberar(NodoAVL* nodo) {
@@ -143,3 +300,4 @@ void AVL::liberar(NodoAVL* nodo) {
     delete nodo->getPaciente();
     delete nodo;
 }
+

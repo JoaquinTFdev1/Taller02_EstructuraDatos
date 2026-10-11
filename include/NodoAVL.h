@@ -22,6 +22,4 @@ public:
     void setIzquierda(NodoAVL* nodo);
     void setDerecha(NodoAVL* nodo);
     void setAltura(int altura);
-
 };
-
