@@ -20,7 +20,9 @@ private:
 public:
     Hospital();
     ~Hospital();
-
+    
+    void mostrarDepartamentos();
+    Paciente* buscarPaciente(string dato, string& servicio, string& ruta);
     bool cargarArchivo(string ruta, int& incorporados, int& rechazados);
     bool atenderSiguiente();
     int getPendientes();

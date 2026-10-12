@@ -29,6 +29,8 @@ private:
     void mostrarFactores(NodoAVL* nodo);
 
     void liberar(NodoAVL* nodo);
+    Paciente* buscarPorNombre(NodoAVL* nodo,string nombre);
+    void mostrarPacientes(NodoAVL* nodo);
 
 public:
     AVL();
@@ -41,7 +43,8 @@ public:
     bool isEmpty();
     int getAltura();
     int getFactorBalance(NodoAVL* nodo);
-
+    Paciente* buscarPorNombre(string nombre);
+    void mostrarPacientes();
     Paciente* buscarPorId(string id, string& ruta);
 
     void mostrarInorden();

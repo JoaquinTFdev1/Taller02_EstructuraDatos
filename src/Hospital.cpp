@@ -48,6 +48,49 @@ bool Hospital::idExisteEnServicios(string id) {
     return false;
 }
 
+void Hospital::mostrarDepartamentos() {
+
+    cout
+        << "\n=== ESTADO DE LOS DEPARTAMENTOS ==="
+        << endl;
+
+    for (int i = 0; i < 8; i++) {
+
+        this->servicios[i]
+            ->mostrarEstado();
+    }
+}
+
+Paciente* Hospital::buscarPaciente(string dato, string& servicio,string& ruta) {
+
+    servicio = "";
+    ruta = "";
+
+    for (int i = 0; i < 8; i++) {
+
+        string rutaActual = "";
+        Paciente* paciente = this->servicios[i]->buscarPorId(dato,rutaActual);
+
+        if (paciente != nullptr) {
+            servicio = this->servicios[i]->getNombre();
+            ruta = rutaActual;
+            return paciente;
+        }
+    }
+
+    for (int i = 0; i < 8; i++) {
+        Paciente* paciente = this->servicios[i]->buscarPorNombre(dato);
+
+        if (paciente != nullptr) {
+            servicio = this->servicios[i]->getNombre();
+            ruta = "Busqueda por nombre mediante recorrido del AVL";
+            return paciente;
+        }
+    }
+
+    return nullptr;
+}
+
 bool Hospital::cargarArchivo(string ruta, int& incorporados, int& rechazados) {
 
     ColaPacientes temporal;

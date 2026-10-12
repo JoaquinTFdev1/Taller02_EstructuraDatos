@@ -1,4 +1,5 @@
 #include "AVL.h"
+#include "Utilidades.h"
 
 #include <iostream>
 
@@ -389,6 +390,49 @@ NodoAVL* AVL::eliminar(NodoAVL* nodo, string id,bool& eliminado) {
     }
 
     return nodo;
+}
+
+Paciente* AVL::buscarPorNombre(string nombre) {
+    return this->buscarPorNombre(this->raiz,nombre);
+}
+
+Paciente* AVL::buscarPorNombre(NodoAVL* nodo,string nombre) {
+
+    if (nodo == nullptr) {
+        return nullptr;
+    }
+
+    if (textosIguales(nodo->getPaciente()->getNombre(),nombre)) {
+        return nodo->getPaciente();
+    }
+
+    Paciente* encontrado = this->buscarPorNombre(nodo->getIzquierda(), nombre);
+
+    if (encontrado != nullptr) {
+        return encontrado;
+    }
+
+    return this->buscarPorNombre(nodo->getDerecha(),nombre);
+}
+
+void AVL::mostrarPacientes(NodoAVL* nodo) {
+
+    if (nodo == nullptr) {
+        return;
+    }
+
+    this->mostrarPacientes(nodo->getIzquierda());
+
+    cout << "- " << nodo->getPaciente()->getNombre() << " (" << nodo->getPaciente()->getId() << ")" << endl;
+    this->mostrarPacientes(nodo->getDerecha());
+
+}
+
+void AVL::mostrarPacientes() {
+
+    this->mostrarPacientes(
+        this->raiz
+    );
 }
 
 void AVL::liberar(NodoAVL* nodo) {

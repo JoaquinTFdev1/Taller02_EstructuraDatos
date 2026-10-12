@@ -17,7 +17,9 @@ public:
     bool insertarPaciente(Paciente* paciente);
 
     Paciente* buscarPorId(string id,string& ruta);
+    Paciente* buscarPorNombre(string nombre);
 
+    void mostrarEstado();
     bool eliminarPaciente(string id);
     bool isEmpty();
 };
