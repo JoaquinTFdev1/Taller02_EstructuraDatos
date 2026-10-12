@@ -150,6 +150,42 @@ void Hospital::mostrarDatosPaciente(Paciente* paciente) {
 
 }
 
+bool Hospital::eliminarPaciente(string id,string& servicio) {
+
+    servicio = "";
+    for (int i = 0; i < 8; i++) {
+
+        string ruta = "";
+        Paciente* paciente =this->servicios[i]->buscarPorId(id,ruta);
+
+        if (paciente != nullptr) {
+            servicio = this->servicios[i]->getNombre();
+            return this->servicios[i]->eliminarPaciente(id);
+        }
+    }
+
+    return false;
+}
+
+
+Servicio* Hospital::obtenerServicioPorNumero(int numero) {
+    if (numero < 1 || numero > 8) {
+        return nullptr;
+    }
+
+    return this->servicios[numero - 1];
+}
+
+void Hospital::mostrarServiciosNumerados() {
+
+    cout << "\n=== SERVICIOS ===" << endl;
+
+    for (int i = 0; i < 8; i++) {
+
+        cout << i + 1 << ". " << this->servicios[i]->getNombre() << endl;
+    }
+}
+
 bool Hospital::atenderSiguiente() {
 
     if (this->cola.isEmpty()) {
@@ -188,6 +224,42 @@ bool Hospital::atenderSiguiente() {
 
     cout << "Paciente insertado en el AVL de " << nombreServicio << "." << endl;
     return true;
+}
+
+void Hospital::mostrarRecorridosServicio(int numero) {
+
+    Servicio* servicio = this->obtenerServicioPorNumero(numero);
+
+    if (servicio == nullptr) {
+        cout << "Servicio no valido." << endl;
+        return;
+    }
+
+    cout << "\n=== " << servicio->getNombre() << " ===" << endl;
+    servicio->mostrarInorden();
+    servicio->mostrarPreorden();
+    servicio->mostrarPostorden();
+}
+
+void Hospital::mostrarBalanceServicio(int numero) {
+
+    Servicio* servicio = this->obtenerServicioPorNumero(numero);
+
+    if (servicio == nullptr) {
+        cout << "Servicio no valido." << endl;
+        return;
+    }
+
+    cout << "\n=== ESTADO AVL: " << servicio->getNombre() << " ===" << endl;
+    cout << "Altura del arbol: " << servicio->getAltura() << endl;
+    servicio->mostrarFactores();
+}
+
+void Hospital::mostrarRecorridosArbolDecision() {
+
+    this->arbolDecision.mostrarPreorden();
+    this->arbolDecision.mostrarInorden();
+    this->arbolDecision.mostrarPostorden();
 }
 
 int Hospital::getPendientes() {

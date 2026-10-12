@@ -2,11 +2,13 @@
 #include <iostream>
 
 using namespace std;
+
 Servicio::Servicio(string nombre) {
     this->nombre = nombre;
 }
 
-Servicio::~Servicio() {}
+Servicio::~Servicio() {
+}
 
 string Servicio::getNombre() {
     return this->nombre;
@@ -20,17 +22,27 @@ bool Servicio::insertarPaciente(Paciente* paciente) {
     return this->arbol.insertar(paciente);
 }
 
-Paciente* Servicio::buscarPorNombre(
-    string nombre
-) {
+Paciente* Servicio::buscarPorId(string id, string& ruta) {
+    return this->arbol.buscarPorId(id, ruta);
+}
 
-    return this->arbol.buscarPorNombre(
-        nombre
-    );
+Paciente* Servicio::buscarPorNombre(string nombre) {
+    return this->arbol.buscarPorNombre(nombre);
+}
+
+bool Servicio::eliminarPaciente(string id) {
+    return this->arbol.eliminar(id);
+}
+
+bool Servicio::isEmpty() {
+    return this->arbol.isEmpty();
+}
+
+int Servicio::getAltura() {
+    return this->arbol.getAltura();
 }
 
 void Servicio::mostrarEstado() {
-
     cout << "\n" << this->nombre << endl;
 
     if (this->arbol.isEmpty()) {
@@ -42,14 +54,21 @@ void Servicio::mostrarEstado() {
     this->arbol.mostrarPacientes();
 }
 
-Paciente* Servicio::buscarPorId(string id,string& ruta) {
-    return this->arbol.buscarPorId(id,ruta);
+void Servicio::mostrarInorden() {
+    this->arbol.mostrarInorden();
 }
 
-bool Servicio::eliminarPaciente(string id) {
-    return this->arbol.eliminar(id);
+void Servicio::mostrarPreorden() {
+    this->arbol.mostrarPreorden();
 }
 
-bool Servicio::isEmpty() {
-    return this->arbol.isEmpty();
+void Servicio::mostrarPostorden() {
+    this->arbol.mostrarPostorden();
 }
+
+void Servicio::mostrarFactores() {
+    this->arbol.mostrarFactores();
+}
+
+
+

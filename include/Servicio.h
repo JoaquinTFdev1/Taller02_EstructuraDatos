@@ -19,10 +19,12 @@ public:
     Paciente* buscarPorId(string id,string& ruta);
     Paciente* buscarPorNombre(string nombre);
 
-    void mostrarEstado();
     bool eliminarPaciente(string id);
     bool isEmpty();
+    int getAltura();
+    void mostrarEstado();
+    void mostrarInorden();
+    void mostrarPreorden();
+    void mostrarPostorden();
+    void mostrarFactores();
 };
-
-
-
