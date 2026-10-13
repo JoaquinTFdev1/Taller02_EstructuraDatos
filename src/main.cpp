@@ -102,9 +102,7 @@ int main() {
     int incorporados = 0;
     int rechazados = 0;
 
-    bool cargado = hospital.cargarArchivo(
-        "pacientes.txt", incorporados, rechazados
-    );
+    bool cargado = hospital.cargarArchivo("pacientes.txt", incorporados, rechazados);
 
     if (!cargado) {
         return 0;
@@ -145,9 +143,7 @@ int main() {
             string servicio = "";
             string ruta = "";
 
-            Paciente* paciente = hospital.buscarPaciente(
-                dato, servicio, ruta
-            );
+            Paciente* paciente = hospital.buscarPaciente(dato, servicio, ruta);
 
             if (paciente == nullptr) {
                 cout << "\nPaciente no encontrado." << endl;
@@ -157,7 +153,7 @@ int main() {
             }
         }
         else if (opcion == 4) {
-            cout << "\nHasta luego." << endl;
+            cout << "\nHasta luego :3" << endl;
         }
         else {
             cout << "\nOpcion no valida." << endl;

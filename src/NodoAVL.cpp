@@ -1,14 +1,16 @@
 #include "NodoAVL.h"
 
 NodoAVL::NodoAVL(Paciente* paciente) {
-
     this->paciente = paciente;
     this->izquierda = nullptr;
     this->derecha = nullptr;
     this->altura = 1;
 }
 
-NodoAVL::~NodoAVL() {}
+NodoAVL::~NodoAVL() {
+    delete this->paciente;
+    this->paciente = nullptr;
+}
 
 Paciente* NodoAVL::getPaciente() {
     return this->paciente;
