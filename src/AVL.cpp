@@ -55,23 +55,19 @@ NodoAVL* AVL::insertar(NodoAVL* nodo, Paciente* paciente, bool& insertado) {
     this->actualizarAltura(nodo);
     int balance = this->getFactorBalance(nodo);
 
-    // Caso LL
     if (balance < -1 && idNuevo < nodo->getIzquierda()->getPaciente()->getId()) {
         return this->rotacionDerecha(nodo);
     }
 
-    // Caso RR
     if (balance > 1 && idNuevo > nodo->getDerecha()->getPaciente()->getId()) {
         return this->rotacionIzquierda(nodo);
     }
 
-    // Caso LR
     if (balance < -1 && idNuevo > nodo->getIzquierda()->getPaciente()->getId()) {
         nodo->setIzquierda(this->rotacionIzquierda(nodo->getIzquierda()));
         return this->rotacionDerecha(nodo);
     }
 
-    // Caso RL
     if (balance > 1 && idNuevo < nodo->getDerecha()->getPaciente()->getId()) {
         nodo->setDerecha(this->rotacionDerecha(nodo->getDerecha()));
         return this->rotacionIzquierda(nodo);
@@ -135,23 +131,19 @@ NodoAVL* AVL::eliminar(NodoAVL* nodo, string id, bool& eliminado) {
     this->actualizarAltura(nodo);
     int balance = this->getFactorBalance(nodo);
 
-    // Desbalance hacia la izquierda
     if (balance < -1 && this->getFactorBalance(nodo->getIzquierda()) <= 0) {
         return this->rotacionDerecha(nodo);
     }
 
-    // Caso LR
     if (balance < -1 && this->getFactorBalance(nodo->getIzquierda()) > 0) {
         nodo->setIzquierda(this->rotacionIzquierda(nodo->getIzquierda()));
         return this->rotacionDerecha(nodo);
     }
 
-    // Desbalance hacia la derecha
     if (balance > 1 && this->getFactorBalance(nodo->getDerecha()) >= 0) {
         return this->rotacionIzquierda(nodo);
     }
 
-    // Caso RL
     if (balance > 1 && this->getFactorBalance(nodo->getDerecha()) < 0) {
         nodo->setDerecha(this->rotacionDerecha(nodo->getDerecha()));
         return this->rotacionIzquierda(nodo);
@@ -296,13 +288,7 @@ void AVL::mostrarInorden(NodoAVL* nodo) {
     }
 
     this->mostrarInorden(nodo->getIzquierda());
-
-    cout
-        << nodo->getPaciente()->getId()
-        << " - "
-        << nodo->getPaciente()->getNombre()
-        << endl;
-
+    cout << nodo->getPaciente()->getId() << " - " << nodo->getPaciente()->getNombre() << endl;
     this->mostrarInorden(nodo->getDerecha());
 }
 
@@ -322,11 +308,7 @@ void AVL::mostrarPreorden(NodoAVL* nodo) {
         return;
     }
 
-    cout
-        << nodo->getPaciente()->getId()
-        << " - "
-        << nodo->getPaciente()->getNombre()
-        << endl;
+    cout << nodo->getPaciente()->getId() << " - " << nodo->getPaciente()->getNombre() << endl;
 
     this->mostrarPreorden(nodo->getIzquierda());
     this->mostrarPreorden(nodo->getDerecha());
@@ -351,11 +333,7 @@ void AVL::mostrarPostorden(NodoAVL* nodo) {
     this->mostrarPostorden(nodo->getIzquierda());
     this->mostrarPostorden(nodo->getDerecha());
 
-    cout
-        << nodo->getPaciente()->getId()
-        << " - "
-        << nodo->getPaciente()->getNombre()
-        << endl;
+    cout << nodo->getPaciente()->getId() << " - " << nodo->getPaciente()->getNombre() << endl;
 }
 
 void AVL::mostrarPostorden() {
@@ -376,14 +354,7 @@ void AVL::mostrarFactores(NodoAVL* nodo) {
 
     this->mostrarFactores(nodo->getIzquierda());
 
-    cout
-        << "ID: "
-        << nodo->getPaciente()->getId()
-        << " | Altura: "
-        << nodo->getAltura()
-        << " | Balance: "
-        << this->getFactorBalance(nodo)
-        << endl;
+    cout << "ID: " << nodo->getPaciente()->getId() << " | Altura: " << nodo->getAltura() << " | Balance: " << this->getFactorBalance(nodo) << endl;
 
     this->mostrarFactores(nodo->getDerecha());
 }
