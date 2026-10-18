@@ -13,6 +13,7 @@ private:
 public:
     NodoAVL(Paciente* paciente);
     ~NodoAVL();
+
     Paciente* getPaciente();
     NodoAVL* getIzquierda();
     NodoAVL* getDerecha();

@@ -106,7 +106,9 @@ NodoAVL* AVL::eliminar(NodoAVL* nodo, string id, bool& eliminado) {
 
         if (nodo->getIzquierda() == nullptr) {
             NodoAVL* hijo = nodo->getDerecha();
+
             delete nodo;
+
             return hijo;
         }
 
@@ -246,7 +248,6 @@ Paciente* AVL::buscarPorId(NodoAVL* nodo, string id, string& ruta) {
     }
 
     ruta += nodo->getPaciente()->getId();
-
     string idActual = nodo->getPaciente()->getId();
 
     if (id == idActual) {
@@ -353,9 +354,7 @@ void AVL::mostrarFactores(NodoAVL* nodo) {
     }
 
     this->mostrarFactores(nodo->getIzquierda());
-
     cout << "ID: " << nodo->getPaciente()->getId() << " | Altura: " << nodo->getAltura() << " | Balance: " << this->getFactorBalance(nodo) << endl;
-
     this->mostrarFactores(nodo->getDerecha());
 }
 
