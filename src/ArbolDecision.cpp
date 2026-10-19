@@ -1,6 +1,8 @@
 #include "ArbolDecision.h"
 #include <iostream>
 
+using namespace std;
+
 ArbolDecision::ArbolDecision() {
     this->raiz = nullptr;
     this->construirArbol();
@@ -8,43 +10,7 @@ ArbolDecision::ArbolDecision() {
 
 ArbolDecision::~ArbolDecision() {
     this->liberar(this->raiz);
-}
-
-bool ArbolDecision::cumpleCondicion(int tipo,Paciente* paciente) {
-
-    if (paciente == nullptr) {
-        return false;
-    }
-
-    if (tipo == 1) {
-        return paciente->getEdad() < 14;
-    }
-
-    if (tipo == 2) {
-        return paciente->getTrauma() == 1;
-    }
-
-    if (tipo == 3) {
-        return paciente->getRequiereCirugia() == 1;
-    }
-
-    if (tipo == 4) {
-        return paciente->getSintomasNeurologicos() == 1;
-    }
-
-    if (tipo == 5) {
-        return paciente->getTipoDolor() == "pecho";
-    }
-
-    if (tipo == 6) {
-        return paciente->getTemperatura() >= 38.5 || paciente->getDolor() >= 8 || paciente->getPresionArterial() >= 160;
-    }
-
-    if (tipo == 7) {
-        return paciente->getDiasHospitalizacion() >= 2;
-    }
-
-    return false;
+    this->raiz = nullptr;
 }
 
 void ArbolDecision::construirArbol() {
@@ -89,8 +55,97 @@ void ArbolDecision::construirArbol() {
     this->raiz = edad;
 }
 
-void ArbolDecision::mostrarPreorden(NodoDecision* nodo) {
+bool ArbolDecision::cumpleCondicion(int tipo, Paciente* paciente) {
+    if (paciente == nullptr) {
+        return false;
+    }
 
+    if (tipo == 1) {
+        return paciente->getEdad() < 14;
+    }
+
+    if (tipo == 2) {
+        return paciente->getTrauma() == 1;
+    }
+
+    if (tipo == 3) {
+        return paciente->getRequiereCirugia() == 1;
+    }
+
+    if (tipo == 4) {
+        return paciente->getSintomasNeurologicos() == 1;
+    }
+
+    if (tipo == 5) {
+        return paciente->getTipoDolor() == "pecho";
+    }
+
+    if (tipo == 6) {
+        return paciente->getTemperatura() >= 38.5 || paciente->getDolor() >= 8 || paciente->getPresionArterial() >= 160;
+    }
+
+    if (tipo == 7) {
+        return paciente->getDiasHospitalizacion() >= 2;
+    }
+
+    return false;
+}
+
+string ArbolDecision::evaluarPaciente(Paciente* paciente, string& ruta) {
+    ruta = "";
+
+    if (paciente == nullptr) {
+        return "";
+    }
+
+    NodoDecision* actual = this->raiz;
+
+    while (actual != nullptr && !actual->esHoja()) {
+        bool resultado = this->cumpleCondicion(actual->getTipo(), paciente);
+
+        if (!ruta.empty()) {
+            ruta += " -> ";
+        }
+
+        ruta += actual->getTexto();
+
+        if (resultado) {
+            ruta += " [SI]";
+            actual = actual->getRamaSi();
+
+        } else {
+            ruta += " [NO]";
+            actual = actual->getRamaNo();
+        }
+    }
+
+    if (actual == nullptr) {
+        return "";
+    }
+
+    if (!ruta.empty()) {
+        ruta += " -> ";
+    }
+
+    ruta += actual->getServicio();
+
+    return actual->getServicio();
+}
+
+void ArbolDecision::mostrarNodo(NodoDecision* nodo) {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    if (nodo->esHoja()) {
+        cout << "[Servicio: " << nodo->getServicio() << "]" << endl;
+
+    } else {
+        cout << "[Decision: " << nodo->getTexto() << "]" << endl;
+    }
+}
+
+void ArbolDecision::mostrarPreorden(NodoDecision* nodo) {
     if (nodo == nullptr) {
         return;
     }
@@ -100,23 +155,7 @@ void ArbolDecision::mostrarPreorden(NodoDecision* nodo) {
     this->mostrarPreorden(nodo->getRamaNo());
 }
 
-void ArbolDecision::mostrarNodo(NodoDecision* nodo) {
-
-    if (nodo == nullptr) {
-        return;
-    }
-
-    if (nodo->esHoja()) {
-        cout << "[Servicio: "<< nodo->getServicio() << "]"<< endl;
-    }
-
-    else {
-        cout << "[Decision: " << nodo->getTexto() << "]" << endl;
-    }
-}
-
 void ArbolDecision::mostrarInorden(NodoDecision* nodo) {
-
     if (nodo == nullptr) {
         return;
     }
@@ -127,7 +166,6 @@ void ArbolDecision::mostrarInorden(NodoDecision* nodo) {
 }
 
 void ArbolDecision::mostrarPostorden(NodoDecision* nodo) {
-
     if (nodo == nullptr) {
         return;
     }
@@ -137,59 +175,17 @@ void ArbolDecision::mostrarPostorden(NodoDecision* nodo) {
     this->mostrarNodo(nodo);
 }
 
-string ArbolDecision::evaluarPaciente(Paciente* paciente,string& ruta) {
-
-    ruta = "";
-    if (paciente == nullptr) {
-        return "";
-    }
-
-    NodoDecision* actual = this->raiz;
-
-    while (actual != nullptr &&!actual->esHoja()) {
-
-        bool resultado = this->cumpleCondicion(actual->getTipo(),paciente);
-
-        if (!ruta.empty()) {
-            ruta += " -> ";
-        }
-        ruta += actual->getTexto();
-
-        if (resultado) {
-            ruta += " [SI]";
-            actual = actual->getRamaSi();
-        }
-
-        else {
-            ruta += " [NO]";
-            actual = actual->getRamaNo();
-        }
-    }
-
-
-    if (actual == nullptr) {
-        return "";
-    }
-
-    return actual->getServicio();
-}
-
 void ArbolDecision::mostrarPreorden() {
-
     cout << "\n=== PREORDEN ARBOL DE DECISION ===" << endl;
     this->mostrarPreorden(this->raiz);
 }
 
-
 void ArbolDecision::mostrarInorden() {
-
     cout << "\n=== INORDEN ARBOL DE DECISION ===" << endl;
     this->mostrarInorden(this->raiz);
 }
 
-
 void ArbolDecision::mostrarPostorden() {
-
     cout << "\n=== POSTORDEN ARBOL DE DECISION ===" << endl;
     this->mostrarPostorden(this->raiz);
 }
