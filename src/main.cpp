@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <string>
+
 #include "Hospital.h"
 #include "Utilidades.h"
 
@@ -49,33 +50,58 @@ void menuArboles(Hospital& hospital) {
 
         getline(cin, entrada);
         opcion = 0;
-        convertirAEnteroNoNegativo(entrada, opcion);
+
+        if (!convertirAEnteroNoNegativo(entrada, opcion)) {
+            cout << "Opcion no valida." << endl;
+            continue;
+        }
 
         if (opcion == 1) {
             hospital.mostrarServiciosNumerados();
+
             cout << "\nSeleccionar servicio: ";
             getline(cin, entrada);
 
-            int servicio = 0;
-            convertirAEnteroNoNegativo(entrada, servicio);
-            hospital.mostrarRecorridosServicio(servicio);
+            int numeroServicio = 0;
+
+            if (!convertirAEnteroNoNegativo(entrada, numeroServicio)) {
+                cout << "Servicio no valido." << endl;
+                continue;
+            }
+
+            hospital.mostrarRecorridosServicio(numeroServicio);
         }
+
         else if (opcion == 2) {
             hospital.mostrarServiciosNumerados();
+
             cout << "\nSeleccionar servicio: ";
             getline(cin, entrada);
 
-            int servicio = 0;
-            convertirAEnteroNoNegativo(entrada, servicio);
-            hospital.mostrarBalanceServicio(servicio);
+            int numeroServicio = 0;
+
+            if (!convertirAEnteroNoNegativo(entrada, numeroServicio)) {
+                cout << "Servicio no valido." << endl;
+                continue;
+            }
+
+            hospital.mostrarBalanceServicio(numeroServicio);
         }
+
         else if (opcion == 3) {
             string id = "";
+            string servicio = "";
 
             cout << "\nID del paciente a eliminar: ";
             getline(cin, id);
 
-            string servicio = "";
+            id = recortar(id);
+
+            if (id.empty()) {
+                cout << "ID no valido." << endl;
+                continue;
+            }
+
             bool eliminado = hospital.eliminarPaciente(id, servicio);
 
             if (eliminado) {
@@ -86,9 +112,11 @@ void menuArboles(Hospital& hospital) {
                 cout << "Paciente no encontrado." << endl;
             }
         }
+
         else if (opcion == 4) {
             hospital.mostrarRecorridosArbolDecision();
         }
+
         else if (opcion != 5) {
             cout << "Opcion no valida." << endl;
         }
@@ -102,7 +130,7 @@ int main() {
     int incorporados = 0;
     int rechazados = 0;
 
-    bool cargado = hospital.cargarArchivo("pacientes.txt", incorporados, rechazados);
+    bool cargado = hospital.cargarArchivo("pacientes.txt",incorporados,rechazados);
 
     if (!cargado) {
         return 0;
@@ -124,21 +152,34 @@ int main() {
 
         getline(cin, entrada);
         opcion = 0;
-        convertirAEnteroNoNegativo(entrada, opcion);
+
+        if (!convertirAEnteroNoNegativo(entrada, opcion)) {
+            cout << "\nOpcion no valida." << endl;
+            continue;
+        }
 
         if (opcion == 1) {
             hospital.atenderSiguiente();
         }
+
         else if (opcion == 2) {
             hospital.mostrarDepartamentos();
             menuArboles(hospital);
         }
+
         else if (opcion == 3) {
             string dato = "";
 
             cout << "\n=== BUSCAR PACIENTE ===" << endl;
             cout << "Indique el ID o Nombre del paciente: ";
+
             getline(cin, dato);
+            dato = recortar(dato);
+
+            if (dato.empty()) {
+                cout << "\nBusqueda no valida." << endl;
+                continue;
+            }
 
             string servicio = "";
             string ruta = "";
@@ -149,12 +190,14 @@ int main() {
                 cout << "\nPaciente no encontrado." << endl;
             }
             else {
-                mostrarPacienteEncontrado(paciente, servicio, ruta);
+                mostrarPacienteEncontrado(paciente, servicio,ruta);
             }
         }
+
         else if (opcion == 4) {
-            cout << "\nHasta luego :3" << endl;
+            cout << "\nHasta luego." << endl;
         }
+
         else {
             cout << "\nOpcion no valida." << endl;
         }
