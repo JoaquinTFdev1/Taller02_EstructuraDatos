@@ -57,7 +57,7 @@ El Hospital Marmaja dispone de ocho servicios:
 7. Pediatria
 8. Hospitalizacion
 
-Cada servicio posee su propio árbol AVL.
+Cada servicio posee su propio árbol AVL. El estado de cada departamento también permite consultar la cantidad de pacientes almacenados en ese árbol.
 
 Por lo tanto, la estructura general puede representarse de la siguiente forma:
 
@@ -174,9 +174,9 @@ Luego:
 cmake --build build
 ```
 
-El archivo `CMakeLists.txt` incluye todos los archivos `.cpp` necesarios para generar el programa.
+El archivo `CMakeLists.txt` incluye los archivos `.h` y `.cpp` del proyecto necesarios para generar el programa.
 
-También se copia automáticamente `pacientes.txt` al directorio de compilación mediante CMake.
+CMake copia automáticamente `pacientes.txt` al mismo directorio donde se genera el ejecutable `taller02`.
 
 ---
 
@@ -238,7 +238,7 @@ Si el generador utilizado deja el ejecutable directamente dentro de `build`, eje
 
 ```text
 cd build
-taller02.exe
+.\taller02.exe
 ```
 
 Dependiendo del generador de CMake, especialmente al utilizar Visual Studio, el ejecutable puede encontrarse dentro de:
@@ -247,19 +247,14 @@ Dependiendo del generador de CMake, especialmente al utilizar Visual Studio, el 
 build/Debug/
 ```
 
-En ese caso se recomienda mantener como directorio actual `build` y ejecutar:
+En ese caso ingresar al mismo directorio del ejecutable:
 
 ```text
-Debug\taller02.exe
+cd build\Debug
+.\taller02.exe
 ```
 
-De esta forma el programa continúa encontrando correctamente:
-
-```text
-pacientes.txt
-```
-
-que se encuentra dentro del directorio `build`.
+CMake copia `pacientes.txt` al mismo directorio donde se genera `taller02.exe`, por lo que ambos archivos permanecen juntos al momento de ejecutar el programa.
 
 ---
 
@@ -348,6 +343,25 @@ y ejecutar:
 
 ```bash
 ./taller02
+```
+
+También puede ejecutarse directamente desde la raíz del repositorio con:
+
+```bash
+./build/taller02
+```
+
+Si el directorio `build` ya existe y se modificó algún archivo fuente, basta con volver a compilar y ejecutar:
+
+```bash
+cmake --build build
+./build/taller02
+```
+
+Si no se realizaron cambios en el código desde la última compilación, solamente es necesario ejecutar:
+
+```bash
+./build/taller02
 ```
 
 El proyecto no utiliza rutas propias de Windows, por lo que puede compilarse también en entornos Linux como GitHub Codespaces.
@@ -587,9 +601,9 @@ Error: no se pudo abrir el archivo 'pacientes.txt'.
 
 y no se continuará con el procesamiento de pacientes.
 
-Por esta razón, `pacientes.txt` debe permanecer en la raíz del proyecto.
+Por esta razón, `pacientes.txt` debe permanecer en la raíz del proyecto como archivo fuente de entrada.
 
-CMake se encarga de copiarlo al directorio de compilación.
+Durante la compilación, CMake se encarga de copiarlo al mismo directorio donde se genera el ejecutable.
 
 ---
 
@@ -1036,7 +1050,15 @@ La altura de un nodo se calcula mediante:
 El factor de balance se calcula como:
 
 ```text
-altura izquierda - altura derecha
+altura derecha - altura izquierda
+```
+
+La interpretación utilizada es:
+
+```text
+-1 -> el subarbol izquierdo tiene un nivel mas
+ 0 -> ambos subarboles tienen la misma altura
+ 1 -> el subarbol derecho tiene un nivel mas
 ```
 
 Un nodo AVL correctamente balanceado debe encontrarse normalmente entre:
@@ -1530,6 +1552,7 @@ Urgencias
 Sin pacientes
 
 Medicina General
+Cantidad de pacientes: 1
 Pacientes:
 - Juan Perez (001)
 
@@ -1861,10 +1884,12 @@ Volver al menú y seleccionar:
 2
 ```
 
-Ahora Medicina General mostrará:
+Al mostrar los departamentos, Medicina General presenta:
 
 ```text
-Juan Perez (001)
+Cantidad de pacientes: 1
+Pacientes:
+- Juan Perez (001)
 ```
 
 Dentro del submenú se pueden revisar los recorridos y el balance de ese AVL.
