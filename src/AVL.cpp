@@ -106,9 +106,7 @@ NodoAVL* AVL::eliminar(NodoAVL* nodo, string id, bool& eliminado) {
 
         if (nodo->getIzquierda() == nullptr) {
             NodoAVL* hijo = nodo->getDerecha();
-
             delete nodo;
-
             return hijo;
         }
 
@@ -191,8 +189,23 @@ void AVL::actualizarAltura(NodoAVL* nodo) {
     nodo->setAltura(1 + this->maximo(alturaIzquierda, alturaDerecha));
 }
 
+int AVL::contarNodos(NodoAVL* nodo) {
+    if (nodo == nullptr) {
+        return 0;
+    }
+
+    int izquierda = this->contarNodos(nodo->getIzquierda());
+    int derecha = this->contarNodos(nodo->getDerecha());
+
+    return 1 + izquierda + derecha;
+}
+
 int AVL::getAltura() {
     return this->altura(this->raiz);
+}
+
+int AVL::getCantidad() {
+    return this->contarNodos(this->raiz);
 }
 
 int AVL::getFactorBalance(NodoAVL* nodo) {
@@ -248,6 +261,7 @@ Paciente* AVL::buscarPorId(NodoAVL* nodo, string id, string& ruta) {
     }
 
     ruta += nodo->getPaciente()->getId();
+
     string idActual = nodo->getPaciente()->getId();
 
     if (id == idActual) {
@@ -375,7 +389,9 @@ void AVL::mostrarPacientes(NodoAVL* nodo) {
     }
 
     this->mostrarPacientes(nodo->getIzquierda());
+
     cout << "- " << nodo->getPaciente()->getNombre() << " (" << nodo->getPaciente()->getId() << ")" << endl;
+
     this->mostrarPacientes(nodo->getDerecha());
 }
 

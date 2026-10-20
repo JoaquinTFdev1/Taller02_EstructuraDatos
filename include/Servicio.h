@@ -16,12 +16,13 @@ public:
     AVL* getArbol();
     bool insertarPaciente(Paciente* paciente);
 
-    Paciente* buscarPorId(string id,string& ruta);
+    Paciente* buscarPorId(string id, string& ruta);
     Paciente* buscarPorNombre(string nombre);
 
     bool eliminarPaciente(string id);
     bool isEmpty();
     int getAltura();
+    int getCantidad();
     void mostrarEstado();
     void mostrarInorden();
     void mostrarPreorden();

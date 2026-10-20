@@ -7,8 +7,7 @@ Servicio::Servicio(string nombre) {
     this->nombre = nombre;
 }
 
-Servicio::~Servicio() {
-}
+Servicio::~Servicio() {}
 
 string Servicio::getNombre() {
     return this->nombre;
@@ -42,6 +41,10 @@ int Servicio::getAltura() {
     return this->arbol.getAltura();
 }
 
+int Servicio::getCantidad() {
+    return this->arbol.getCantidad();
+}
+
 void Servicio::mostrarEstado() {
     cout << "\n" << this->nombre << endl;
 
@@ -49,7 +52,8 @@ void Servicio::mostrarEstado() {
         cout << "Sin pacientes" << endl;
         return;
     }
-
+    
+    cout << "Cantidad de pacientes: " << this->getCantidad() << endl;
     cout << "Pacientes:" << endl;
     this->arbol.mostrarPacientes();
 }
@@ -69,6 +73,3 @@ void Servicio::mostrarPostorden() {
 void Servicio::mostrarFactores() {
     this->arbol.mostrarFactores();
 }
-
-
-

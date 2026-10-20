@@ -10,13 +10,17 @@ private:
     NodoAVL* insertar(NodoAVL* nodo, Paciente* paciente, bool& insertado);
     NodoAVL* eliminar(NodoAVL* nodo, string id, bool& eliminado);
     NodoAVL* nodoMenor(NodoAVL* nodo);
+
     int altura(NodoAVL* nodo);
     int maximo(int a, int b);
     void actualizarAltura(NodoAVL* nodo);
+    int contarNodos(NodoAVL* nodo);
+
     NodoAVL* rotacionDerecha(NodoAVL* nodo);
     NodoAVL* rotacionIzquierda(NodoAVL* nodo);
     Paciente* buscarPorId(NodoAVL* nodo, string id, string& ruta);
     Paciente* buscarPorNombre(NodoAVL* nodo, string nombre);
+
     void mostrarInorden(NodoAVL* nodo);
     void mostrarPreorden(NodoAVL* nodo);
     void mostrarPostorden(NodoAVL* nodo);
@@ -33,6 +37,7 @@ public:
     bool insertar(Paciente* paciente);
     bool eliminar(string id);
     int getAltura();
+    int getCantidad();
     int getFactorBalance(NodoAVL* nodo);
 
     Paciente* buscarPorId(string id, string& ruta);
