@@ -137,144 +137,30 @@ Se necesita:
 
 - Un compilador compatible con C++17.
 - CMake 3.16 o superior.
-- Una terminal o entorno capaz de ejecutar CMake.
-
-Compiladores compatibles incluyen, por ejemplo:
-
-```text
-g++
-clang++
-MSVC
-MinGW
-```
+- **CLion** o un entorno de **GitHub Codespaces** con las herramientas de compilación disponibles.
 
 No se requieren librerías externas.
 
-El proyecto puede ejecutarse utilizando:
+---
 
-- CLion.
-- Windows.
-- Linux.
-- macOS.
-- GitHub Codespaces.
+# Compilación y ejecución
+
+A continuación se describen los procedimientos para compilar y ejecutar el proyecto en **CLion** y **GitHub Codespaces**.
+
+El archivo `CMakeLists.txt` contiene la configuración necesaria para compilar los archivos `.h` y `.cpp` del proyecto y generar el ejecutable `taller02`.
+
+Durante la compilación, CMake copia `pacientes.txt` al mismo directorio donde se genera el ejecutable.
 
 ---
 
-# Compilación utilizando CMake
+## Compilación y ejecución en CLion
 
-Desde la carpeta raíz del proyecto ejecutar:
+1. Abrir **CLion** y seleccionar **Open** para cargar la carpeta raíz del proyecto, donde se encuentra `CMakeLists.txt`.
+2. Esperar a que CLion detecte y configure automáticamente el proyecto CMake.
+3. Seleccionar el target **`taller02`** en el selector de configuraciones de ejecución.
+4. Presionar **Build** para compilar el proyecto y después **Run** (o el botón verde) para ejecutarlo.
 
-```bash
-cmake -S . -B build
-```
-
-Luego:
-
-```bash
-cmake --build build
-```
-
-El archivo `CMakeLists.txt` incluye los archivos `.h` y `.cpp` del proyecto necesarios para generar el programa.
-
-CMake copia automáticamente `pacientes.txt` al mismo directorio donde se genera el ejecutable `taller02`.
-
----
-
-## Ejecución en Linux
-
-Desde la raíz del proyecto:
-
-```bash
-cmake -S . -B build
-cmake --build build
-```
-
-Después ingresar a la carpeta:
-
-```bash
-cd build
-```
-
-Ejecutar:
-
-```bash
-./taller02
-```
-
----
-
-## Ejecución en macOS
-
-El procedimiento es equivalente a Linux.
-
-```bash
-cmake -S . -B build
-cmake --build build
-cd build
-./taller02
-```
-
-Se necesita tener instalado un compilador C++ compatible y CMake.
-
----
-
-## Ejecución en Windows
-
-Desde PowerShell, CMD o una terminal compatible, ubicarse en la carpeta principal del proyecto.
-
-Ejecutar:
-
-```text
-cmake -S . -B build
-```
-
-Luego:
-
-```text
-cmake --build build
-```
-
-Si el generador utilizado deja el ejecutable directamente dentro de `build`, ejecutar desde esa carpeta:
-
-```text
-cd build
-.\taller02.exe
-```
-
-Dependiendo del generador de CMake, especialmente al utilizar Visual Studio, el ejecutable puede encontrarse dentro de:
-
-```text
-build/Debug/
-```
-
-En ese caso ingresar al mismo directorio del ejecutable:
-
-```text
-cd build\Debug
-.\taller02.exe
-```
-
-CMake copia `pacientes.txt` al mismo directorio donde se genera `taller02.exe`, por lo que ambos archivos permanecen juntos al momento de ejecutar el programa.
-
----
-
-## Ejecución en CLion
-
-Abrir la carpeta principal del proyecto en CLion.
-
-CLion debería detectar automáticamente:
-
-```text
-CMakeLists.txt
-```
-
-El target que se debe ejecutar es:
-
-```text
-taller02
-```
-
-Si CMake no se actualiza automáticamente:
+Si CLion no actualiza la configuración de CMake automáticamente, utilizar:
 
 ```text
 Tools
@@ -282,27 +168,15 @@ Tools
 -> Reload CMake Project
 ```
 
-Después seleccionar el target:
+Si aparecen errores asociados a una configuración de compilación antigua, puede eliminarse únicamente la carpeta generada por CLion:
 
 ```text
-taller02
+cmake-build-debug/
 ```
 
-y presionar **Run**.
+y luego volver a cargar la configuración con **Reload CMake Project**.
 
-Si se generan problemas debido a configuraciones antiguas, se puede eliminar únicamente la carpeta generada por CLion:
-
-```text
-cmake-build-debug
-```
-
-y posteriormente volver a realizar:
-
-```text
-Reload CMake Project
-```
-
-No se deben eliminar:
+**Importante:** no eliminar los archivos o carpetas originales del proyecto:
 
 ```text
 src/
@@ -315,56 +189,113 @@ README.md
 
 ---
 
-## Ejecución en GitHub Codespaces
+## Compilación y ejecución en GitHub Codespaces
 
-Abrir el repositorio mediante GitHub Codespaces.
+GitHub Codespaces permite abrir el repositorio en un entorno de desarrollo en línea y compilar el programa directamente desde su terminal.
 
-Desde la terminal del Codespace ubicarse en la raíz del proyecto.
+### Paso 1. Abrir el proyecto en Codespaces
 
-Ejecutar:
+1. Ingresar al repositorio del proyecto en **GitHub**.
+2. Presionar el botón verde **Code**.
+3. Seleccionar la pestaña **Codespaces**.
+4. Abrir un Codespace existente o seleccionar **Create codespace on ...** para crear uno en la rama correspondiente.
+5. Esperar a que se abra el editor del Codespace.
+
+### Paso 2. Abrir la terminal y comprobar la carpeta
+
+En el editor, abrir **Terminal > New Terminal**.
+
+La terminal debe estar ubicada en la carpeta raíz del repositorio, donde se encuentran `CMakeLists.txt`, `pacientes.txt`, `include/` y `src/`.
+
+Para comprobarlo, ejecutar:
+
+```bash
+pwd
+ls
+```
+
+Si no aparece `CMakeLists.txt`, ubicarse primero en la carpeta principal del proyecto antes de continuar.
+
+### Paso 3. Configurar el proyecto con CMake
+
+Desde la raíz del repositorio, ejecutar:
 
 ```bash
 cmake -S . -B build
 ```
 
-Luego:
+Este comando lee `CMakeLists.txt` y prepara los archivos de compilación dentro de la carpeta `build/`.
+
+### Paso 4. Compilar el programa
+
+Ejecutar:
 
 ```bash
 cmake --build build
 ```
 
-Ingresar a:
+Al finalizar sin errores, se genera el ejecutable `taller02` en la carpeta de compilación.
+
+### Paso 5. Ejecutar el programa
+
+Desde la carpeta raíz del proyecto, ingresar a `build` y ejecutar:
 
 ```bash
 cd build
-```
-
-y ejecutar:
-
-```bash
 ./taller02
 ```
 
-También puede ejecutarse directamente desde la raíz del repositorio con:
+El programa debe cargar `pacientes.txt` y mostrar el menú principal del **Hospital Marmaja**.
+
+Para regresar a la raíz del proyecto:
+
+```bash
+cd ..
+```
+
+**Alternativa:** si la terminal se encuentra en la raíz del repositorio, también puede iniciarse con:
 
 ```bash
 ./build/taller02
 ```
 
-Si el directorio `build` ya existe y se modificó algún archivo fuente, basta con volver a compilar y ejecutar:
+### Comandos completos para copiar y ejecutar
+
+Si la terminal ya está en la raíz del repositorio, los comandos necesarios para configurar, compilar y ejecutar por primera vez son:
+
+```bash
+cmake -S . -B build
+cmake --build build
+cd build
+./taller02
+```
+
+### Volver a compilar después de modificar el código
+
+Si se modificó un archivo `.cpp` o `.h`, **no es necesario crear nuevamente la carpeta de compilación**. Desde la raíz del repositorio, ejecutar:
 
 ```bash
 cmake --build build
 ./build/taller02
 ```
 
-Si no se realizaron cambios en el código desde la última compilación, solamente es necesario ejecutar:
+Si se permanece dentro de `build/`, puede utilizarse:
 
 ```bash
-./build/taller02
+cmake --build .
+./taller02
 ```
 
-El proyecto no utiliza rutas propias de Windows, por lo que puede compilarse también en entornos Linux como GitHub Codespaces.
+Si no se modificó el código desde la última compilación, basta con ejecutar el programa sin volver a compilarlo.
+
+### Solución de problemas frecuentes en Codespaces
+
+- **`cmake: command not found`:** comprobar que CMake esté instalado en el entorno del Codespace. El proyecto requiere CMake 3.16 o superior.
+- **`The source directory ... does not appear to contain CMakeLists.txt`:** ejecutar `pwd` y `ls`, y asegurarse de estar en la raíz del repositorio antes de ejecutar `cmake -S . -B build`.
+- **`./taller02: No such file or directory`:** comprobar que `cmake --build build` haya terminado sin errores y que se esté ejecutando el archivo desde la carpeta adecuada (`build/`).
+- **No se encuentra `pacientes.txt`:** verificar que el archivo esté en la raíz del repositorio. Para usar la copia generada por CMake, ejecutar el programa desde `build/` con `./taller02`.
+
+**Importante:** la carpeta `build/` contiene archivos generados durante la compilación y no necesita subirse a GitHub.
 
 ---
 
